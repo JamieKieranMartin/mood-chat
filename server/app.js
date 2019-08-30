@@ -24,12 +24,15 @@ io.on('connection', (socket) => {
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', (data) => {
-    //ar result = sentiment.analyze(data);
+    var result = sentiment.analyze(data);
     console.log("New Message", data);
     // we tell the client to execute 'new message'
     socket.emit('new message', {
       username: socket.username,
-      message: data
+      message: data,
+      score: result,
+      time: new Date().toString(),
+      id: socket.id
     });
   });
 
@@ -83,6 +86,4 @@ io.on('connection', (socket) => {
       });
     }
   });
-
-  socket.broadcast.emit('connected');
 });

@@ -6,46 +6,48 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/styles';
 import useSocket from 'use-socket.io-client';
 
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: '#cfe8fc',
+    height: '200px',
+    borderRadius: '20px',
+  },
+});
 
-function App() {
-  
 
-  const useStyles = makeStyles({
-    root: {
-      backgroundColor: '#cfe8fc',
-      height: '200px',
-      borderRadius: '20px',
-    },
-  });
-
+export default function App() {
   const [message, setMessage] = useState("");
-  const [displayMessage, setDisplayMessage] = useState("");
+  const [displayMessage, setDisplayMessage] = useState([]);
   const classes = useStyles();
-  //const [state, setState] = React.useState("kjkj");
 
-  const [socket] = useSocket('ws://localhost:2999',{
+  const [socket] = useSocket('ws://127.0.0.1:2999',{
     autoConnect: true,
     secure: false
   });
 
-  // connect to socket
-  //socket.connect();
-
   // on event, do something
   socket.on('new message', (text)=>{
-    console.log(text);
+    console.log(displayMessage)
+    let newData = displayMessage;
+    if ( !newData.includes(text) ) {
+      newData.push(text)
+      setDisplayMessage(newData);
+    }
+    
   });
 
 
-  const submitMessage = (event) => {
-    event.preventDefault();
+  const submitMessage = (e) => {
+    e.preventDefault();
     socket.emit('new message', message);
-    setDisplayMessage(message);
+    setMessage('');
   }
   
-  const handleChange = (event) => {
-    setMessage(event.target.value)
+  const handleChange = (e) => {
+    setMessage(e.target.value)
   }
+
+  console.log(displayMessage);
 
   return (
     <div className="App">
@@ -56,17 +58,22 @@ function App() {
           <Container maxWidth="sm">
             <Typography className={classes.root}>
               Chat log: <br />
-              {displayMessage}
+              { displayMessage.map(row => (
+                <LineItem key={row.time} text={row.message} />
+              )) }
             </Typography>
           </Container>
           <form onSubmit={submitMessage}>
-          <TextField
-           onChange={handleChange}
-           ></TextField>
+            <TextField
+              value={message}
+              onChange={handleChange}
+            />
            </form>
         </div>
     </div>
   );
 }
 
-export default App;
+function LineItem(props) {
+  return <p>{props.text}</p>
+}
