@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/styles';
+import useSocket from 'use-socket.io-client';
 
 const useStyles = makeStyles({
   root: {
@@ -13,9 +14,24 @@ const useStyles = makeStyles({
 });
 
 
-
 function App() {
   const classes = useStyles();
+
+  const [socket] = useSocket('ws://localhost:3000',{
+    autoConnect: false,
+  });
+
+  // connect to socket
+  socket.connect();
+
+  // on event, do something
+  socket.on('message', (text)=>{
+    console.log(text);
+  });
+
+  // send data to server
+  socket.emit('message', 'this is demo..');
+
   return (
     <div className="App">
       <header>
