@@ -6,7 +6,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var Sentiment = require('sentiment');
 var sentiment = new Sentiment();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 2999;
 
 server.listen(port, () => {
   console.log('Server listening at port %d', port);
@@ -53,8 +53,9 @@ io.on('connection', (socket) => {
   });
 
   // when the client emits 'typing', we broadcast it to others
-  socket.on('typing', () => {
-    console.log("Typing", data);
+  socket.on('typing', (data) => {
+    var result = sentiment.analyze(data);
+    console.log("Typing", data, result);
     socket.broadcast.emit('typing', {
       username: socket.username
     });
@@ -62,7 +63,8 @@ io.on('connection', (socket) => {
 
   // when the client emits 'stop typing', we broadcast it to others
   socket.on('stop typing', () => {
-    console.log("Stop Typing");
+    var result = sentiment.analyze(data);
+    console.log("Stop Typing", data, result);
     socket.broadcast.emit('stop typing', {
       username: socket.username
     });
