@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -6,17 +6,22 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/styles';
 import useSocket from 'use-socket.io-client';
 
-const useStyles = makeStyles({
-  root: {
-    backgroundColor: '#cfe8fc',
-    height: '30vh',
-  },
-});
-
 
 function App() {
+  
+
+  const useStyles = makeStyles({
+    root: {
+      backgroundColor: '#cfe8fc',
+      height: '200px',
+      borderRadius: '20px',
+    },
+  });
+
+  const [message, setMessage] = useState("");
+  const [displayMessage, setDisplayMessage] = useState("");
   const classes = useStyles();
-  const [state, setState] = React.useState("kjkj");
+  //const [state, setState] = React.useState("kjkj");
 
   const [socket] = useSocket('ws://localhost:2999',{
     autoConnect: true,
@@ -31,8 +36,15 @@ function App() {
     console.log(text);
   });
 
-  const handleSubmit = () => {
-    socket.emit('new message', state);
+
+  const submitMessage = (event) => {
+    event.preventDefault();
+    socket.emit('new message', message);
+    setDisplayMessage(message);
+  }
+  
+  const handleChange = (event) => {
+    setMessage(event.target.value)
   }
 
   return (
@@ -43,10 +55,15 @@ function App() {
         <div>
           <Container maxWidth="sm">
             <Typography className={classes.root}>
-              Chat log:
+              Chat log: <br />
+              {displayMessage}
             </Typography>
           </Container>
-          <TextField value={state} onChange={handleSubmit}></TextField>
+          <form onSubmit={submitMessage}>
+          <TextField
+           onChange={handleChange}
+           ></TextField>
+           </form>
         </div>
     </div>
   );
