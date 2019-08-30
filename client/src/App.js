@@ -17,20 +17,21 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
 
-  const [socket] = useSocket('ws://localhost:3000',{
-    autoConnect: false,
+  const [socket] = useSocket('ws://192.168.202.189:2999',{
+    autoConnect: true,
+    secure: false
   });
 
   // connect to socket
-  socket.connect();
+  //socket.connect();
 
   // on event, do something
-  socket.on('message', (text)=>{
+  socket.on('new message', (text)=>{
     console.log(text);
   });
 
   // send data to server
-  socket.emit('message', 'this is demo..');
+  socket.emit('new message', 'this is demo..');
 
   return (
     <div className="App">
