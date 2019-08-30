@@ -17,15 +17,17 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
 
-  const [socket] = useSocket('ws://localhost:3000',{
-    autoConnect: false,
+  const [socket] = useSocket('ws://localhost:2999',{
+    autoConnect: true,
+    secure: false,
   });
-
-  // connect to socket
-  socket.connect();
 
   // on event, do something
   socket.on('message', (text)=>{
+    console.log(text);
+  });
+
+  socket.on('connected', (text)=>{
     console.log(text);
   });
 
@@ -37,14 +39,14 @@ function App() {
       <header>
         <h1>Chat App</h1>
       </header>
-      <body>
         <div>
           <Container maxWidth="sm">
-            <Typography className={classes.root}></Typography>
+            <Typography className={classes.root}>
+              Chat log:
+            </Typography>
           </Container>
-          <TextField></TextField>
+          <TextField placeholder="Enter a message..."></TextField>
         </div>
-      </body>
     </div>
   );
 }
