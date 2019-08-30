@@ -16,23 +16,24 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
+  const [state, setState] = React.useState("kjkj");
 
   const [socket] = useSocket('ws://localhost:2999',{
     autoConnect: true,
-    secure: false,
+    secure: false
   });
+
+  // connect to socket
+  //socket.connect();
 
   // on event, do something
-  socket.on('message', (text)=>{
+  socket.on('new message', (text)=>{
     console.log(text);
   });
 
-  socket.on('connected', (text)=>{
-    console.log(text);
-  });
-
-  // send data to server
-  socket.emit('message', 'this is demo..');
+  const handleSubmit = () => {
+    socket.emit('new message', state);
+  }
 
   return (
     <div className="App">
@@ -45,7 +46,7 @@ function App() {
               Chat log:
             </Typography>
           </Container>
-          <TextField placeholder="Enter a message..."></TextField>
+          <TextField value={state} onChange={handleSubmit}></TextField>
         </div>
     </div>
   );
