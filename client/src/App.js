@@ -16,6 +16,7 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
+  const [state, setState] = React.useState("kjkj");
 
   const [socket] = useSocket('ws://192.168.202.189:2999',{
     autoConnect: true,
@@ -30,8 +31,9 @@ function App() {
     console.log(text);
   });
 
-  // send data to server
-  socket.emit('new message', 'this is demo..');
+  const handleSubmit = () => {
+    socket.emit('new message', state);
+  }
 
   return (
     <div className="App">
@@ -43,7 +45,7 @@ function App() {
           <Container maxWidth="sm">
             <Typography className={classes.root}></Typography>
           </Container>
-          <TextField></TextField>
+          <TextField value={state} onChange={handleSubmit}></TextField>
         </div>
       </body>
     </div>
