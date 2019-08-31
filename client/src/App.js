@@ -7,7 +7,11 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/styles';
 import useSocket from 'use-socket.io-client';
+<<<<<<< HEAD
+import Login from './Login';
+=======
 import Display from './display';
+>>>>>>> 4d74a9bffc88a4c89fe5470faf648005f8db1ebe
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +34,11 @@ const useStyles = makeStyles({
 export default function App() {
   const [message, setMessage] = useState("");
   const [displayMessage, setDisplayMessage] = useState([]);
+<<<<<<< HEAD
+  const [userName, setUserName] = useState("");
+=======
   const [username, setUsername] = useState("");
+>>>>>>> 4d74a9bffc88a4c89fe5470faf648005f8db1ebe
   const classes = useStyles();
 
   const [socket] = useSocket('ws://127.0.0.1:2999',{
@@ -59,10 +67,17 @@ export default function App() {
     setMessage(e.target.value)
   }
 
+  const handleUserName = (e) => {
+    e.preventDefault();
+    setUserName(e.target.value)
+    console.log(userName);
+  }
+
   console.log(displayMessage);
 
   return (
     <div className="App">
+      <Login handleUserName={handleUserName}></Login>
       <header>
         <h1>Chat App</h1>
       </header>
