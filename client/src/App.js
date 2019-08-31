@@ -3,9 +3,15 @@ import './App.css';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/styles';
 import useSocket from 'use-socket.io-client';
+<<<<<<< HEAD
 import Login from './Login';
+=======
+import Display from './display';
+>>>>>>> 4d74a9bffc88a4c89fe5470faf648005f8db1ebe
 
 const useStyles = makeStyles({
   root: {
@@ -13,13 +19,26 @@ const useStyles = makeStyles({
     height: '200px',
     borderRadius: '20px',
   },
+  display: {
+    padding: "2rem 2.5rem",
+    width: '40%',
+    height: '50vh',
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
 });
 
 
 export default function App() {
   const [message, setMessage] = useState("");
   const [displayMessage, setDisplayMessage] = useState([]);
+<<<<<<< HEAD
   const [userName, setUserName] = useState("");
+=======
+  const [username, setUsername] = useState("");
+>>>>>>> 4d74a9bffc88a4c89fe5470faf648005f8db1ebe
   const classes = useStyles();
 
   const [socket] = useSocket('ws://127.0.0.1:2999',{
@@ -37,7 +56,6 @@ export default function App() {
     }
     
   });
-
 
   const submitMessage = (e) => {
     e.preventDefault();
@@ -63,22 +81,11 @@ export default function App() {
       <header>
         <h1>Chat App</h1>
       </header>
-        <div>
-          <Container maxWidth="sm">
-            <Typography className={classes.root}>
-              Chat log: <br />
-              { displayMessage.map(row => (
-                <LineItem key={row.time} text={row.message} />
-              )) }
-            </Typography>
-          </Container>
-          <form onSubmit={submitMessage}>
-            <TextField
-              value={message}
-              onChange={handleChange}
-            />
-           </form>
-        </div>
+      <Paper className={classes.display}>
+        <Display/>
+        <Divider/>
+        <TextField/>
+      </Paper>
     </div>
   );
 }
