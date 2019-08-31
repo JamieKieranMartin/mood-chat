@@ -67,7 +67,6 @@ export default function App() {
   const handleUserName = (e, tempUsername) => {
     e.preventDefault();
     setUsername(tempUsername)
-    setRefresh(!refresh);
     console.log(username);
   }
   
@@ -78,7 +77,7 @@ export default function App() {
         <h1>Chat App</h1>
       </header>
       <Paper className={classes.window}>
-        <Display refresh={refresh} messages={displayMessage} />
+        <Display refresh={refresh} messages={displayMessage} username={username} />
         <Divider/>
         <form onSubmit={handleSubmit}>
           <TextField

@@ -77,7 +77,7 @@ function Message(props) {
         }} 
         className={classes.details}
       >
-      {new Date(row.time).toLocaleString('en-AU', { hour: 'numeric', minute: 'numeric', hour12: true })} - {row.username}
+      {new Date(row.time).toLocaleString('en-AU', { hour: 'numeric', minute: 'numeric', hour12: true })} - {"" + row.username}
       </Typography>
     </Typography>
   )
