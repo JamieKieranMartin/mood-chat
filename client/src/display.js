@@ -41,16 +41,14 @@ export default function Display(props) {
   }
 
   useEffect(scrollToBottom, []);
-  console.log(data)
-  console.log(props.refresh)
-
+ 
   return (
-      <div className={classes.root}>
-        {data.map((row, index) => (
-            <Message key={index} classes={classes} row={row} username={username} />
-        ))}
-        <Typography variant="overline" component='div' ref={messagesEndRef}>End of Page</Typography>
-      </div>
+    <div className={classes.root}>
+      {data.map((row, index) => (
+        <Message key={index} classes={classes} row={row} username={username} />
+      ))}
+      <Typography variant="overline" component='div' ref={messagesEndRef}>End of Page</Typography>
+    </div>
   );
 }
 
@@ -60,30 +58,30 @@ function Message(props) {
   const username = props.username;
 
   return (
-    <Typography 
-      className={classes.message} 
-      style={{ 
-        float: row.username == username ? "right" : "left", 
-        alignItems: row.username == username ? "flex-end" : "flex-start" 
+    <Typography
+      className={classes.message}
+      style={{
+        float: row.username == username ? "right" : "left",
+        alignItems: row.username == username ? "flex-end" : "flex-start"
       }}
     >
-      <Chip 
-        icon={<TagFacesIcon />} 
-        label={ row.message} 
-        className={classes.chip} 
-      /> 
-      
-      <Emote num = {row.score.score} ></Emote>
+        <Chip
+          icon={<TagFacesIcon />}
+          label={row.message}
+          className={classes.chip}
+        />
 
+        <Emote num={row.score.score} ></Emote>
       
-      <Typography 
-        variant="caption" 
-        style={{ 
-          textAlign: row.username == username ? "right" : "left" 
-        }} 
+
+      <Typography
+        variant="caption"
+        style={{
+          textAlign: row.username == username ? "right" : "left"
+        }}
         className={classes.details}
       >
-      {new Date(row.time).toLocaleString('en-AU', { hour: 'numeric', minute: 'numeric', hour12: true })} - {row.username}
+        {new Date(row.time).toLocaleString('en-AU', { hour: 'numeric', minute: 'numeric', hour12: true })} - {row.username}
       </Typography>
     </Typography>
   )

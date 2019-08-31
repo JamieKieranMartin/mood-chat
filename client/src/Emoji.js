@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+
 
 const Emoji = props => (
     <span
@@ -25,10 +25,10 @@ const Emoji = props => (
 
 export default function Emote(props) {
     return  (
-        <div>
+        <span>
            {renderSwitch(props.num)}
 
-        </div>
+        </span>
     )
     
 }

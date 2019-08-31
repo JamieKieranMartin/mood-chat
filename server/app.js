@@ -38,8 +38,8 @@ io.on('connection', (socket) => {
 
   socket.on('analyze', (data) => {
     var result = sentiment.analyze(data);
-    console.log("New Message", data);
-    // we tell the client to execute 'new message'
+    console.log("New Analyze Message", data);
+  
     socket.emit('analyze', {
       username: socket.username,
       message: data,
