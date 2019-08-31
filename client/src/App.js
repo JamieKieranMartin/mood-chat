@@ -65,33 +65,10 @@ export default function App() {
     
   });
 
-  const handleUserName = (e, tempUsername) => {
-    e.preventDefault();
-    setUsername(tempUsername)
-    console.log(username);
-  }
-  
-  return (
-    <div className="App">
-      {<Login handleUserName={handleUserName} userName = {username}></Login>}
-      <header>
-        <h1>Chat App</h1>
-      </header>
-      <Paper className={classes.window}>
-        <Display refresh={refresh} messages={displayMessage} username={username} />
-        <h1></h1>
-        <Divider/>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            className={classes.text}
-            value={message}
-            onChange={handleChange}
-          />
-        </form>
-      </Paper>
-    </div>
-  );
+const handleSubmit = (e) => {
+  e.preventDefault();
+  socket.emit('new message', message);
+  setMessage('');
 }
 
 const handleChange = (e) => {
