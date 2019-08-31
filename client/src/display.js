@@ -8,7 +8,7 @@ import './App.css';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxHeight: "100%",
+    height: '80%',
     overflowY: 'scroll'
   },
   container: {
@@ -29,21 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Display(props) {
   const classes = useStyles();
-  const data = /*props.messages ? props.messages :*/ [{
-    message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    time: new Date(),
-    score: 3,
-    username: 'Kevin',
-    id: 1
-  },
-  {
-    message: 'Hello!',
-    time: new Date(),
-    score: 3,
-    username: 'Jamie',
-    id: 2
-  }
-  ];
+  const data = props.messages;
   const username = props.username ? props.username : "Jamie";
 
   const messagesEndRef = useRef(null);
@@ -53,17 +39,18 @@ export default function Display(props) {
   }
 
   useEffect(scrollToBottom, []);
+  console.log(data)
+  console.log(props.refresh)
 
   return (
       <div className={classes.root}>
-        {data.map(row => (
-            <Message classes={classes} row={row} username={username} />
+        {data.map((row, index) => (
+            <Message key={index} classes={classes} row={row} username={username} />
         ))}
-        <div ref={messagesEndRef}>End of Page</div>
+        <Typography variant="overline" component='div' ref={messagesEndRef}>End of Page</Typography>
       </div>
   );
 }
-
 
 function Message(props) {
   const row = props.row;
@@ -80,7 +67,7 @@ function Message(props) {
     >
       <Chip 
         icon={<TagFacesIcon />} 
-        label={row.message} 
+        label={row.score.score + " " + row.message} 
         className={classes.chip} 
       />
       <Typography 
@@ -90,7 +77,7 @@ function Message(props) {
         }} 
         className={classes.details}
       >
-      {row.time.toLocaleString('en-AU', { hour: 'numeric', minute: 'numeric', hour12: true })} - {row.username}
+      {new Date(row.time).toLocaleString('en-AU', { hour: 'numeric', minute: 'numeric', hour12: true })} - {row.username}
       </Typography>
     </Typography>
   )

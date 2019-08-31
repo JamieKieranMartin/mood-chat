@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -7,11 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/styles';
 import useSocket from 'use-socket.io-client';
-<<<<<<< HEAD
-import Login from './Login';
-=======
+//import Login from './Login';
 import Display from './display';
->>>>>>> 4d74a9bffc88a4c89fe5470faf648005f8db1ebe
 
 const useStyles = makeStyles({
   root: {
@@ -22,11 +19,14 @@ const useStyles = makeStyles({
   window: {
     padding: "2rem 2.5rem",
     width: '40%',
-    height: '50vh',
+    height: '70vh',
     margin: '0 auto',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
+  },
+  text: {
+    width: '100%',
   }
 });
 
@@ -34,11 +34,8 @@ const useStyles = makeStyles({
 export default function App() {
   const [message, setMessage] = useState("");
   const [displayMessage, setDisplayMessage] = useState([]);
-<<<<<<< HEAD
-  const [userName, setUserName] = useState("");
-=======
+  const [refresh, setRefresh] = useState(false);
   const [username, setUsername] = useState("");
->>>>>>> 4d74a9bffc88a4c89fe5470faf648005f8db1ebe
   const classes = useStyles();
 
   const [socket] = useSocket('ws://127.0.0.1:2999',{
@@ -47,17 +44,16 @@ export default function App() {
   });
 
   // on event, do something
-  socket.on('new message', (text)=>{
-    console.log(displayMessage)
+  socket.on('new message', (text) => {
     let newData = displayMessage;
-    if ( !newData.includes(text) ) {
-      newData.push(text)
+    if ( !displayMessage.includes(text) ) {
+      newData.push(text);
       setDisplayMessage(newData);
     }
-    
+    setRefresh(!refresh);
   });
 
-  const submitMessage = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit('new message', message);
     setMessage('');
@@ -69,23 +65,23 @@ export default function App() {
 
   const handleUserName = (e) => {
     e.preventDefault();
-    setUserName(e.target.value)
-    console.log(userName);
+    setUsername(e.target.value)
+    console.log(username);
   }
-
-  console.log(displayMessage);
 
   return (
     <div className="App">
-      <Login handleUserName={handleUserName}></Login>
+      {/*<Login handleUserName={handleUserName}></Login>*/}
       <header>
         <h1>Chat App</h1>
       </header>
       <Paper className={classes.window}>
-        <Display />
+        <Display refresh={refresh} messages={displayMessage} />
         <Divider/>
-        <form onSubmit={submitMessage}>
+        <form onSubmit={handleSubmit}>
           <TextField
+            variant="outlined"
+            className={classes.text}
             value={message}
             onChange={handleChange}
           />

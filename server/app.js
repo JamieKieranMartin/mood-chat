@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
       username: socket.username,
       message: data,
       score: result,
-      time: new Date().toString(),
+      time: new Date(),
       id: socket.id
     });
   });
