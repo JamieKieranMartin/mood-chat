@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     height: '200px',
     borderRadius: '20px',
   },
-  display: {
+  window: {
     padding: "2rem 2.5rem",
     width: '40%',
     height: '50vh',
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
-  },
+  }
 });
 
 
@@ -74,10 +74,15 @@ export default function App() {
       <header>
         <h1>Chat App</h1>
       </header>
-      <Paper className={classes.display}>
-        <Display/>
+      <Paper className={classes.window}>
+        <Display />
         <Divider/>
-        <TextField/>
+        <form onSubmit={submitMessage}>
+          <TextField
+            value={message}
+            onChange={handleChange}
+          />
+        </form>
       </Paper>
     </div>
   );
