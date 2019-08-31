@@ -66,12 +66,13 @@ export default function App() {
     socket.emit('analyze', e.target.value);
   }
 
-  const handleUserName = (e) => {
+  const handleUserName = (e, tempUsername) => {
     e.preventDefault();
-    setUsername(e.target.value)
+    setUsername(tempUsername)
+    setRefresh(!refresh);
     console.log(username);
   }
-
+  
   return (
     <div className="App">
       {<Login handleUserName={handleUserName} userName = {username}></Login>}

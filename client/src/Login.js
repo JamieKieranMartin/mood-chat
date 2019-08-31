@@ -6,16 +6,47 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { makeStyles } from '@material-ui/styles';
+import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles({
+    root: {
+        backgroundColor: '#cfe8fc',
+        height: '200px',
+        borderRadius: '20px',
+      },
+    window: {
+      padding: "2rem 2.5rem",
+      width: '70%',
+      height: '30vh',
+      margin: '0 auto',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    },
+    text: {
+        width: '100%',
+    }
+  });
 
 export default function Login(props) {
+    const classes = useStyles();
     const [open, setOpen] = React.useState(true);
+    const [tempUsername, setTempUsername] = React.useState("");
 
     function handleClose() {
-        setOpen(false);
+        if(props.username !== "") {
+            setOpen(false);
+        }
+    }
+
+    const handleChange = (e) => {
+        setTempUsername(e.target.value);
     }
 
     const handleSubmit = (e) => {
-        props.handleUserName(e);
+        props.handleUserName(e, tempUsername);
+        handleClose();
     }
     
     return (
@@ -25,13 +56,18 @@ export default function Login(props) {
                 open={open}
                 onClose={handleClose}
             >
-                <DialogTitle>Enter a user name:</DialogTitle>
+                <Paper className={classes.window}>
+                <DialogTitle>Enter a user name</DialogTitle>
                 <DialogActions>
                 <form onSubmit={handleSubmit}>
-                    <TextField value = {props.userName} onChange = {props.handleUserName}></TextField>
-                    {console.log(props.userName)}
+                    <TextField
+                    variant="outlined"
+                    className={classes.text}
+                    onChange={handleChange}
+                    ></TextField>
                 </form>
                 </DialogActions>
+                </Paper>
             </Dialog>
         </div>
     )
