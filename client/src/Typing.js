@@ -31,37 +31,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function Typing(props) {
     const classes = useStyles();
-    const data = props.messages;
-    const username = props.username ? props.username : "Jamie";
-
-
-
+    const content = props.messages;
+    const username = props.username;
+    const text = content.length > 0 ?  `${username} is typing...` : "";
     return (
         <div className={classes.root}>
-            {console.log("Data in Typing: ",data.pop())}
-            {/* <UserTyping content = {data} classes={classes} /> */}
+            <div className={classes.message} style={{ margin: '0 auto' }}>
+                <Chip label = {text} className={classes.chip}/>
+            </div>
         </div>
     );
-}
-
-function UserTyping(props) {
-    const content = props.content
-    const classes = props.classes;
-    const text = content.length > 0 ?  " User is typing..." : "";
-    return (
-        <div
-            className={classes.message}
-            style={{
-                float: "left"
-            }}
-        >
-    
-            <Chip
-                label = {text}
-                className={classes.chip}
-            />
-
-        </div>
-
-    )
 }

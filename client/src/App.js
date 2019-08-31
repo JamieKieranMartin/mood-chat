@@ -5,10 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/styles';
 import useSocket from 'use-socket.io-client';
-//import Login from './Login';
 import Display from './display';
 import Login from './Login';
-import Typing from './Typing'
 
 const useStyles = makeStyles({
   root: {
@@ -30,81 +28,71 @@ const useStyles = makeStyles({
   }
 });
 
-
 export default function App() {
   const [message, setMessage] = useState("");
-  const [typing,setType] = useState([]);
-  const [displayMessage, setDisplayMessage] = useState([]);
+  const [typing, setType] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [username, setUsername] = useState("");
   const classes = useStyles();
 
-  const [socket] = useSocket('ws://127.0.0.1:2999', {
+  const [socket] = useSocket('ws://192.168.0.142:2999', {
     autoConnect: true,
     secure: false
   });
 
   // on event, do something
   socket.on('new message', (text) => {
-    let newData = displayMessage;
-    if (!displayMessage.includes(text)) {
+    let newData = messages;
+    if (!messages.includes(text)) {
       newData.push(text);
-      setDisplayMessage(newData);
+      setMessages(newData);
     }
-    
     setRefresh(!refresh);
   });
 
   socket.on('analyze', (text) => {
     let newData = typing;
-    if (!typing.includes(text))
-      {
-        newData.push(text);
-        setType(newData);
-      }
-    
+    if (!typing.includes(text)) {
+      newData.push(text);
+      setType(newData);
+    }
   });
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  socket.emit('new message', message);
-  setMessage('');
-}
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    socket.emit('new message', message);
+    setMessage('');
+  }
 
-const handleChange = (e) => {
-  e.preventDefault();
-  setMessage(e.target.value);
+  const handleChange = (e) => {
+    setMessage(e.target.value);
+    socket.emit('analyze', e.target.value);
+  }
 
-  socket.emit('analyze', e.target.value);
-}
+  const handleUserSubmit = (e) => {
+    setUsername(e);
+    socket.emit('add user', e);
+  }
 
-const handleUserName = (e, tempUsername) => {
-  e.preventDefault();
-  setUsername(tempUsername)
-  setRefresh(!refresh);
-  console.log(username);
-}
-
-return (
-  <div className="App">
-    {<Login handleUserName={handleUserName} userName={username}></Login>}
-    <header>
-      <h1>Chat App</h1>
-    </header>
-    <Paper className={classes.window}>
-      <Display refresh={refresh} messages={displayMessage} />
-      
-      <Divider />
-      <form onSubmit={handleSubmit}>
-        <TextField
-          variant="outlined"
-          className={classes.text}
-          value={message}
-          onChange={handleChange}
-        />
-      </form>
-    </Paper>
-    <Typing refresh={refresh} messages={typing} /> 
-  </div>
-);
+  return (
+    <div className="App">
+      <Login open={username == "" ? true : false} handleUsername={handleUserSubmit}/>
+      <header>
+        <h1>Chat App</h1>
+      </header>
+      <Paper className={classes.window}>
+        <Display typing={typing} username={username} refresh={refresh} messages={messages} />
+        <Divider />
+        <form onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            className={classes.text}
+            value={message}
+            onChange={handleChange}
+          />
+        </form>
+      </Paper>
+    </div>
+  );
 }

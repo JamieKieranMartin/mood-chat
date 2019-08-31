@@ -31,39 +31,30 @@ const useStyles = makeStyles({
 
 export default function Login(props) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-    const [tempUsername, setTempUsername] = React.useState("");
-
-    function handleClose() {
-        if(props.username !== "") {
-            setOpen(false);
-        }
-    }
+    const open = props.open;
+    const [user, setUser] = React.useState("");
 
     const handleChange = (e) => {
-        setTempUsername(e.target.value);
+        setUser(e.target.value);
     }
 
     const handleSubmit = (e) => {
-        props.handleUserName(e, tempUsername);
-        handleClose();
+        e.preventDefault();
+        props.handleUsername(user);
     }
     
     return (
-        
         <div className="Login">
-            <Dialog
-                open={open}
-                onClose={handleClose}
-            >
+            <Dialog open={open} >
                 <Paper className={classes.window}>
                 <DialogTitle>Enter a user name</DialogTitle>
                 <DialogActions>
                 <form onSubmit={handleSubmit}>
                     <TextField
-                    variant="outlined"
-                    className={classes.text}
-                    onChange={handleChange}
+                        variant="outlined"
+                        className={classes.text}
+                        onChange={handleChange}
+                        value={user}
                     ></TextField>
                 </form>
                 </DialogActions>

@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     var result = sentiment.analyze(data);
     console.log("New Message", data);
     // we tell the client to execute 'new message'
-    socket.emit('new message', {
+    io.emit('new message', {
       username: socket.username,
       message: data,
       score: result,
@@ -42,9 +42,7 @@ io.on('connection', (socket) => {
   
     socket.emit('analyze', {
       username: socket.username,
-      message: data,
       score: result,
-      time: new Date(),
       id: socket.id
     });
   });

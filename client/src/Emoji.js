@@ -12,22 +12,23 @@ const Emoji = props => (
     </span>
   );
  function renderSwitch(param) {
-
-    switch(param) {
-      case -2:
-        return <Emoji symbol = "🙃"/>;
-      case 2:
-        return <Emoji symbol = "😆"/>;
-      default:
-        return <Emoji symbol = "😅"/>;
-    }
-  }
+   if (param <= -15) return <Emoji symbol = "😭"/>;
+   else if (param <= -12) return <Emoji symbol = "😢"/>;
+   else if (param <= -9) return <Emoji symbol = "😓"/>;
+   else if (param <= -6) return <Emoji symbol = "😟"/>;
+   else if (param <= -3) return <Emoji symbol = "🙁"/>;
+   else if (param >= 15) return <Emoji symbol = "😍"/>;
+   else if (param >= 12) return <Emoji symbol = "🥰"/>;
+   else if (param >= 9) return <Emoji symbol = "😄"/>;
+   else if (param >= 6) return <Emoji symbol = "😀"/>;
+   else if (param >= 3) return <Emoji symbol = "😌"/>;
+   else return <Emoji symbol = "😐"/>;
+}
 
 export default function Emote(props) {
     return  (
         <span>
            {renderSwitch(props.num)}
-
         </span>
     )
     
