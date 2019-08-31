@@ -36,6 +36,19 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('analyze', (data) => {
+    var result = sentiment.analyze(data);
+    console.log("New Message", data);
+    // we tell the client to execute 'new message'
+    socket.emit('analyze', {
+      username: socket.username,
+      message: data,
+      score: result,
+      time: new Date(),
+      id: socket.id
+    });
+  });
+
   // when the client emits 'add user', this listens and executes
   socket.on('add user', (username) => {
     console.log("Add User", username);

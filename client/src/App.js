@@ -10,6 +10,7 @@ import useSocket from 'use-socket.io-client';
 //import Login from './Login';
 import Display from './display';
 import Login from './Login';
+import Emote from './Emoji'
 
 const useStyles = makeStyles({
   root: {
@@ -62,6 +63,7 @@ export default function App() {
   
   const handleChange = (e) => {
     setMessage(e.target.value)
+    socket.emit('analyze', e.target.value);
   }
 
   const handleUserName = (e, tempUsername) => {
@@ -72,12 +74,13 @@ export default function App() {
   
   return (
     <div className="App">
-      <Login username={username} handleUserName={handleUserName}></Login>
+      {<Login handleUserName={handleUserName} userName = {username}></Login>}
       <header>
         <h1>Chat App</h1>
       </header>
       <Paper className={classes.window}>
         <Display refresh={refresh} messages={displayMessage} username={username} />
+        <h1></h1>
         <Divider/>
         <form onSubmit={handleSubmit}>
           <TextField

@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/styles';
 import Chip from '@material-ui/core/Chip';
 import TagFacesIcon from '@material-ui/icons/TagFaces';
 import './App.css';
+import Emote from './Emoji'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -67,9 +69,13 @@ function Message(props) {
     >
       <Chip 
         icon={<TagFacesIcon />} 
-        label={row.score.score + " " + row.message} 
+        label={ row.message} 
         className={classes.chip} 
-      />
+      /> 
+      
+      <Emote num = {row.score.score} ></Emote>
+
+      
       <Typography 
         variant="caption" 
         style={{ 
@@ -82,3 +88,7 @@ function Message(props) {
     </Typography>
   )
 }
+
+
+
+
