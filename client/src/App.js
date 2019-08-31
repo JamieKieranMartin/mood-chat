@@ -64,15 +64,16 @@ export default function App() {
     setMessage(e.target.value)
   }
 
-  const handleUserName = (e) => {
+  const handleUserName = (e, tempUsername) => {
     e.preventDefault();
-    setUsername(e.target.value)
+    setUsername(tempUsername)
+    setRefresh(!refresh);
     console.log(username);
   }
-
+  
   return (
     <div className="App">
-      {/*<Login handleUserName={handleUserName}></Login>*/}
+      <Login username={username} handleUserName={handleUserName}></Login>
       <header>
         <h1>Chat App</h1>
       </header>
