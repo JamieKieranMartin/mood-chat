@@ -28,7 +28,8 @@ export default function Login(props) {
                 <DialogTitle>Enter a user name:</DialogTitle>
                 <DialogActions>
                 <form onSubmit={handleSubmit}>
-                    <TextField></TextField>
+                    <TextField value = {props.userName} onChange = {props.handleUserName}></TextField>
+                    {console.log(props.userName)}
                 </form>
                 </DialogActions>
             </Dialog>
