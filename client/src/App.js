@@ -36,7 +36,7 @@ export default function App() {
   const [username, setUsername] = useState("");
   const classes = useStyles();
 
-  const [socket] = useSocket('ws://192.168.0.142:2999', {
+  const [socket] = useSocket('ws://127.0.0.1:2999', {
     autoConnect: true,
     secure: false
   });

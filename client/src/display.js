@@ -42,7 +42,7 @@ export default function Display(props) {
         <Message key={index} classes={classes} row={row} username={username} />
       ))}
 
-      {typing != [] ? <Typography
+      { props.typing.username ? (<Typography
         className={classes.message}
         component="div"
         style={{
@@ -54,7 +54,7 @@ export default function Display(props) {
           label={`${typing.username} is typing...`}
           className={classes.chip}
         />
-    </Typography> : ""}
+      </Typography>) : ""}
 
     </div>
   );
