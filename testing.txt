@@ -1,8 +1,0 @@
-tesing push 123
-
-{
-content: "the message",
-time: "2908158",
-user: "who?",
-score: 0
-}
